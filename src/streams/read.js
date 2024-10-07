@@ -1,5 +1,25 @@
+import { createReadStream } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const read = async () => {
-    // Write your code here 
+
+    const filePath = path.join(__dirname, 'files', 'fileToRead.txt');
+
+    const stream = createReadStream(filePath, { encoding: 'utf-8' });
+
+    stream.pipe(process.stdout);
+   
+    stream.on('error', (e) => {
+        console.error(e.message);
+    });
+
+    stream.on('end', () => {
+        console.log('\nFile reading completed.');
+      });
 };
 
 await read();
